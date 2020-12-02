@@ -4,9 +4,13 @@ import javax.persistence.*;
 
 public class KreditnaKartica {
 	@Id
+	@Column(name="broj_kartice")
 	private Long brojKartice;
+	@Column(name="ime_vlasnika")
 	private String imeVlasnika;
+	@Column(name="prezime_vlasnika")
 	private String prezimeVlasnika;
+	@Column(name="sigurnosni_broj")
 	private Integer sigurnosniBroj;
 	@ManyToOne
 	private Korisnik korisnik;

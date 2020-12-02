@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ public class Korisnik {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@Column(unique=true)
+	@Column(unique=true, name="broj_pasosa")
 	private String brojPasosa;
 	private String ime;
 	private String prezime;
@@ -25,6 +26,7 @@ public class Korisnik {
 		this.prezime=prezime;
 		this.email=email;
 		this.sifra=sifra;
+		kartice=new ArrayList<>();
 	}
 
 	public String getBrojPasosa() {

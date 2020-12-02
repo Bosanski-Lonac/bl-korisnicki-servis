@@ -8,7 +8,7 @@
       <relativePath/>
   </parent>
   
-  <groupId>com.komponente</groupId>
+  <groupId>com.bosanskilonac</groupId>
   <artifactId>korisnicki-servis</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>korisnicki-servis</name>
