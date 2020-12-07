@@ -1,5 +1,6 @@
 package mapper;
 
+import dto.AdminCreateDto;
 import dto.AdminDto;
 import model.Admin;
 
@@ -11,10 +12,10 @@ public class AdminMapper {
 		return adminDto;
 	}
 	
-	public Admin AdminToAdminDto(AdminDto adminDto) {
+	public Admin AdminToAdminDto(AdminCreateDto adminCreateDto) {
 		Admin admin=new Admin();
-		admin.setUsername(adminDto.getUsername());
-		admin.setPassword(adminDto.getPassword());
+		admin.setUsername(adminCreateDto.getUsername());
+		admin.setPassword(adminCreateDto.getPassword());
 		return admin;
 	}
 }

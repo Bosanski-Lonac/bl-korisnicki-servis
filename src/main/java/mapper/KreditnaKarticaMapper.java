@@ -1,5 +1,6 @@
 package mapper;
 
+import dto.KreditnaKarticaCreateDto;
 import dto.KreditnaKarticaDto;
 import model.KreditnaKartica;
 
@@ -13,12 +14,12 @@ public class KreditnaKarticaMapper {
 		return kreditnaKarticaDto;
 	}
 	
-	public KreditnaKartica kreditnaKarticaDtoToKreditnaKartica(KreditnaKarticaDto kreditnaKarticaDto) {
+	public KreditnaKartica kreditnaKarticaDtoToKreditnaKartica(KreditnaKarticaCreateDto kreditnaKarticaCreateDto) {
 		KreditnaKartica kreditnaKartica=new KreditnaKartica();
-		kreditnaKartica.setBrojKartice(kreditnaKarticaDto.getBrojKartice());
-		kreditnaKartica.setImeVlasnika(kreditnaKarticaDto.getImeVlasnika());
-		kreditnaKartica.setPrezimeVlasnika(kreditnaKarticaDto.getPrezimeVlasnika());
-		kreditnaKartica.setSigurnosniBroj(kreditnaKarticaDto.getSigurnosniBroj());
+		kreditnaKartica.setBrojKartice(kreditnaKarticaCreateDto.getBrojKartice());
+		kreditnaKartica.setImeVlasnika(kreditnaKarticaCreateDto.getImeVlasnika());
+		kreditnaKartica.setPrezimeVlasnika(kreditnaKarticaCreateDto.getPrezimeVlasnika());
+		kreditnaKartica.setSigurnosniBroj(kreditnaKarticaCreateDto.getSigurnosniBroj());
 		return kreditnaKartica;
 	}
 }

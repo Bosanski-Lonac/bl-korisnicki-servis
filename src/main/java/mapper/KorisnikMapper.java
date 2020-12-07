@@ -1,5 +1,6 @@
 package mapper;
 
+import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
 import model.Korisnik;
 
@@ -14,13 +15,13 @@ public class KorisnikMapper {
 		return korisnikDto;
 	}
 	
-	public Korisnik korisnikCreateDtoToKorisnik(KorisnikDto korisnikDto) {
+	public Korisnik korisnikCreateDtoToKorisnik(KorisnikCreateDto korisnikCreateDto) {
 		Korisnik korisnik=new Korisnik();
-		korisnik.setBrojPasosa(korisnikDto.getBrojPasosa());
-		korisnik.setIme(korisnikDto.getIme());
-		korisnik.setPrezime(korisnikDto.getPrezime());
-		korisnik.setEmail(korisnikDto.getEmail());
-		korisnik.setSifra(korisnikDto.getSifra());
+		korisnik.setBrojPasosa(korisnikCreateDto.getBrojPasosa());
+		korisnik.setIme(korisnikCreateDto.getIme());
+		korisnik.setPrezime(korisnikCreateDto.getPrezime());
+		korisnik.setEmail(korisnikCreateDto.getEmail());
+		korisnik.setSifra(korisnikCreateDto.getSifra());
 		return korisnik;
 	}
 }
