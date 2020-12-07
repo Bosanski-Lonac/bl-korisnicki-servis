@@ -48,8 +48,8 @@ public class KorisnikController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<KorisnikDto> add(@RequestBody @Valid KorisnikCreateDto productCreateDto){
-		return new ResponseEntity<>(korisnikService.add(productCreateDto), HttpStatus.CREATED);
+	public ResponseEntity<KorisnikDto> register(@RequestBody @Valid KorisnikCreateDto productCreateDto){
+		return new ResponseEntity<>(korisnikService.register(productCreateDto), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")

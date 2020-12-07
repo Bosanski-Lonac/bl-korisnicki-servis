@@ -45,7 +45,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 	}
 
 	@Override
-	public KorisnikDto add(KorisnikCreateDto korisnikCreateDto) {
+	public KorisnikDto register(KorisnikCreateDto korisnikCreateDto) {
 		return korisnikMapper.korisnikToKorisnikDto(korisnikRepository.save(korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto)));
 	}
 
