@@ -5,20 +5,24 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Korisnik {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	private String email;
 	@Column(unique=true, name="broj_pasosa")
 	private String brojPasosa;
 	private String ime;
 	private String prezime;
-	private String email;
 	private String sifra;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "korisnik", orphanRemoval = true)
 	private List<KreditnaKartica> kartice;
 	@Enumerated(EnumType.STRING)
 	private Rank rank;
+	
+	public Korisnik() {};
 	
 	public Korisnik(String brojPasosa, String ime, String prezime, String email, String sifra) {
 		this.brojPasosa=brojPasosa;

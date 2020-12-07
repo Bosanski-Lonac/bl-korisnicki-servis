@@ -2,10 +2,16 @@ package model;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Admin {
 	@Id
 	private String username;
 	private String password;
+	
+	public Admin() {};
 	
 	public Admin(String username, String password) {
 		this.username = username;

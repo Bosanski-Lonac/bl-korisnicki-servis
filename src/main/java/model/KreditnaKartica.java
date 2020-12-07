@@ -2,6 +2,10 @@ package model;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class KreditnaKartica {
 	@Id
 	@Column(name="broj_kartice")
@@ -15,12 +19,22 @@ public class KreditnaKartica {
 	@ManyToOne
 	private Korisnik korisnik;
 	
+	public KreditnaKartica() {};
+	
 	public KreditnaKartica(Long brojKartice, String imeVlasnika, String prezimeVlasnika, Integer sigurnosniBroj) {
 		super();
 		this.brojKartice = brojKartice;
 		this.imeVlasnika = imeVlasnika;
 		this.prezimeVlasnika = prezimeVlasnika;
 		this.sigurnosniBroj = sigurnosniBroj;
+	}
+	
+	public Long getBrojKartice() {
+		return brojKartice;
+	}
+
+	public void setBrojKartice(Long brojKartice) {
+		this.brojKartice = brojKartice;
 	}
 
 	public String getImeVlasnika() {
