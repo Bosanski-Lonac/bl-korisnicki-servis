@@ -1,16 +1,16 @@
 package service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import dto.KorisnikCreateDto;
+import dto.KorisnikCUDto;
 import dto.KorisnikDto;
-import dto.KorisnikUpdateDto;
+import dto.TokenRequestDto;
+import dto.TokenResponseDto;
 
 public interface KorisnikService {
-	Page<KorisnikDto> findAll(Pageable pageable);
-	KorisnikDto findById(String id);
-	KorisnikDto register(KorisnikCreateDto korisnikCreateDto);
-	KorisnikDto update(String id, KorisnikUpdateDto korisnikUpdateDto);
+	KorisnikDto register(KorisnikCUDto korisnikCreateDto);
+	
+	KorisnikDto update(String id, KorisnikCUDto korisnikUpdateDto);
+	
 	void deleteById(String id);
+	
+	TokenResponseDto login(TokenRequestDto tokenRequestDto);
 }

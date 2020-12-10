@@ -1,12 +1,9 @@
 package service;
 
-import dto.KreditnaKarticaCreateDto;
+import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
-import dto.KreditnaKarticaUpdateDto;
 
 public interface KreditnaKarticaService {
-	KreditnaKarticaDto findById(Long id);
-	KreditnaKarticaDto add(KreditnaKarticaCreateDto korisnikCreateDto);
-	KreditnaKarticaDto update(Long id, KreditnaKarticaUpdateDto korisnikUpdateDto);
+	KreditnaKarticaDto add(KreditnaKarticaCUDto korisnikCreateDto);
 	void deleteById(Long id);
 }
