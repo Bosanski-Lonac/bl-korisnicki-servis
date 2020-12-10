@@ -1,7 +1,11 @@
-package service.implementation;
+package com.bosanskilonac.ks.service.implementation;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.bosanskilonac.ks.model.Admin;
+import com.bosanskilonac.ks.repository.AdminRepository;
+import com.bosanskilonac.ks.service.AdminService;
+import com.bosanskilonac.ks.service.TokenService;
 
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
@@ -9,13 +13,8 @@ import enums.Role;
 import helpers.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import model.Admin;
-import repository.AdminRepository;
-import service.AdminService;
-import service.TokenService;
 
 @Service
-@Transactional
 public class AdminServiceImpl implements AdminService {
 	private TokenService tokenService;
 	private AdminRepository adminRepository;
@@ -28,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
 		Admin admin = adminRepository
-				.findAdminByUsernameAndPassword(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
+				.findAdminByUsernameAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Login information was incorrect, try again."));
 		Claims claims = Jwts.claims();
 		claims.put("id", admin.getUsername());

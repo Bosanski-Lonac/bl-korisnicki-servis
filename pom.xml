@@ -7,10 +7,10 @@
     <relativePath/>
   </parent>
   <groupId>com.bosanskilonac</groupId>
-  <artifactId>korisnicki-servis</artifactId>
+  <artifactId>ks</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>korisnicki-servis</name>
-  <description>Korisnicki servis za bosanski lonac</description>
+  <description>Korisnicki servis za projekat Bosanski Lonac</description>
   
   <properties>
     <java.version>1.8</java.version>
@@ -79,11 +79,11 @@
   </dependencies>
 
   <build>
-      <plugins>
-          <plugin>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-maven-plugin</artifactId>
-          </plugin>
-      </plugins>
+   <plugins>
+       <plugin>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-maven-plugin</artifactId>
+       </plugin>
+   </plugins>
   </build>
 </project>

@@ -1,12 +1,15 @@
-package service.implementation;
+package com.bosanskilonac.ks.service.implementation;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.bosanskilonac.ks.service.TokenService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import service.TokenService;
 
+@Service
 public class TokenServiceImpl implements TokenService {
 	@Value("${oauth.jwt.secret}")
     private String jwtSecret;

@@ -1,4 +1,4 @@
-package model;
+package com.bosanskilonac.ks.model;
 
 import javax.persistence.*;
 
@@ -9,13 +9,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Admin {
 	@Id
 	private String username;
-	private String password;
+	private String sifra;
 	
 	public Admin() {};
 	
-	public Admin(String username, String password) {
+	public Admin(String username, String sifra) {
 		this.username = username;
-		this.password = password;
+		this.sifra = sifra;
 	}
 
 	public String getUsername() {
@@ -26,11 +26,11 @@ public class Admin {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getSifra() {
+		return sifra;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setSifra(String sifra) {
+		this.sifra = sifra;
 	}
 }

@@ -1,4 +1,4 @@
-package model;
+package com.bosanskilonac.ks.model;
 
 import javax.persistence.*;
 

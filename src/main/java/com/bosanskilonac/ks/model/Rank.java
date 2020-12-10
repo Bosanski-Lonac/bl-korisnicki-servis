@@ -1,4 +1,4 @@
-package model;
+package com.bosanskilonac.ks.model;
 
 public enum Rank {
 	ZLATO(10000), SREBRO(1000), BRONZA(0);

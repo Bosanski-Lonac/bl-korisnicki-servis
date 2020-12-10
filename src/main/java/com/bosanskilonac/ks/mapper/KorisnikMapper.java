@@ -1,9 +1,13 @@
-package mapper;
+package com.bosanskilonac.ks.mapper;
+
+import org.springframework.stereotype.Component;
+
+import com.bosanskilonac.ks.model.Korisnik;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
-import model.Korisnik;
 
+@Component
 public class KorisnikMapper {
 	public KorisnikDto korisnikToKorisnikDto(Korisnik korisnik) {
 		KorisnikDto korisnikDto=new KorisnikDto();

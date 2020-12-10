@@ -1,12 +1,16 @@
-package mapper;
+package com.bosanskilonac.ks.mapper;
+
+import org.springframework.stereotype.Component;
+
+import com.bosanskilonac.ks.model.Korisnik;
+import com.bosanskilonac.ks.model.KreditnaKartica;
+import com.bosanskilonac.ks.repository.KorisnikRepository;
 
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
 import helpers.NotFoundException;
-import model.Korisnik;
-import model.KreditnaKartica;
-import repository.KorisnikRepository;
 
+@Component
 public class KreditnaKarticaMapper {
 	private KorisnikRepository korisnikRepository;
 	

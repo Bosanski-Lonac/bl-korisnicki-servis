@@ -1,7 +1,12 @@
-package service.implementation;
+package com.bosanskilonac.ks.service.implementation;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.bosanskilonac.ks.mapper.KorisnikMapper;
+import com.bosanskilonac.ks.model.Korisnik;
+import com.bosanskilonac.ks.repository.KorisnikRepository;
+import com.bosanskilonac.ks.service.KorisnikService;
+import com.bosanskilonac.ks.service.TokenService;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
@@ -11,14 +16,8 @@ import enums.Role;
 import helpers.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import mapper.KorisnikMapper;
-import model.Korisnik;
-import repository.KorisnikRepository;
-import service.KorisnikService;
-import service.TokenService;
 
 @Service
-@Transactional
 public class KorisnikServiceImpl implements KorisnikService {
 	private TokenService tokenService;
 	private KorisnikRepository korisnikRepository;
@@ -56,7 +55,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 	@Override
 	public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
 		Korisnik korisnik = korisnikRepository
-				.findUserByEmailAndPassword(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
+				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Login information was incorrect, try again."));
 		Claims claims = Jwts.claims();
 		claims.put("id", korisnik.getEmail());

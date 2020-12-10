@@ -1,4 +1,4 @@
-package service;
+package com.bosanskilonac.ks.service;
 
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
