@@ -14,7 +14,6 @@ import com.bosanskilonac.ks.service.KreditnaKarticaService;
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
 import exceptions.NotFoundException;
-import io.jsonwebtoken.Claims;
 import security.TokenService;
 
 @Service
@@ -33,8 +32,7 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 
 	@Override
 	public KreditnaKarticaDto add(String authorization, KreditnaKarticaCUDto kreditnaKarticaCreateDto) {
-		Claims claims = tokenService.parseToken(authorization);
-		Long korisnikId = claims.get("id", Long.class);
+		Long korisnikId = tokenService.getIdFromToken(authorization);
 		Korisnik korisnik = korisnikRepository
 				.findById(korisnikId)
 				.orElseThrow(() -> new NotFoundException("Couldn't find user attempting to add credit card"));
@@ -50,8 +48,7 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 
 	@Override
 	public Page<KreditnaKarticaDto> findAll(String authorization, Pageable pageable) {
-		Claims claims = tokenService.parseToken(authorization);
-		Long korisnikId = claims.get("id", Long.class);
+		Long korisnikId = tokenService.getIdFromToken(authorization);
 		return ccRepository.findByKorisnikId(korisnikId, pageable)
 				.map(ccMapper::kreditnaKarticaToKreditnaKarticaDto);
 	}

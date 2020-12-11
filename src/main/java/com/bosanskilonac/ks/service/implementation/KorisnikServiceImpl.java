@@ -62,8 +62,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 	
 	/*@Override
 	public Long getIdKorisnika(String authorization) {
-		Claims claims = tokenService.parseToken(authorization);
-		Long id = claims.get("id", Long.class);
+		Long korisnikId = tokenService.getIdFromToken(authorization);
 		return id;
 	}*/
 }
