@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class KreditnaKartica {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name="broj_kartice")
 	private Long brojKartice;
 	@Column(name="ime_vlasnika")
@@ -23,6 +25,14 @@ public class KreditnaKartica {
 	@ManyToOne
 	private Korisnik korisnik;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Long getBrojKartice() {
 		return brojKartice;
 	}

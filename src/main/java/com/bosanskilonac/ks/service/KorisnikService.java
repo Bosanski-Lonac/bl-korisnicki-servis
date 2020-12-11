@@ -8,9 +8,11 @@ import dto.TokenResponseDto;
 public interface KorisnikService {
 	KorisnikDto register(KorisnikCUDto korisnikCreateDto);
 	
-	KorisnikDto update(String id, KorisnikCUDto korisnikUpdateDto);
+	KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto);
 	
-	void deleteById(String id);
+	void deleteById(Long id);
 	
 	TokenResponseDto login(TokenRequestDto tokenRequestDto);
+
+	//Long getIdKorisnika(String authorization);
 }

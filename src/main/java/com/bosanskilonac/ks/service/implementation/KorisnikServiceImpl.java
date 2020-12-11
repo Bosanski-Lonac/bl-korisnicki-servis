@@ -1,7 +1,5 @@
 package com.bosanskilonac.ks.service.implementation;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.mapper.KorisnikMapper;
@@ -26,38 +24,28 @@ public class KorisnikServiceImpl implements KorisnikService {
 	private KorisnikMapper korisnikMapper;
 	
 	public KorisnikServiceImpl(TokenService tokenService, KorisnikRepository korisnikRepository, KorisnikMapper korisnikMapper) {
-		this.tokenService=tokenService;
-		this.korisnikRepository=korisnikRepository;
-		this.korisnikMapper=korisnikMapper;
+		this.tokenService = tokenService;
+		this.korisnikRepository = korisnikRepository;
+		this.korisnikMapper = korisnikMapper;
 	}
 
 	@Override
 	public KorisnikDto register(KorisnikCUDto korisnikCreateDto) {
-		if(korisnikRepository.existsById(korisnikCreateDto.getEmail())) {
-			return null;
-		}
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
 	@Override
-	public KorisnikDto update(String id, KorisnikCUDto korisnikUpdateDto) {
-		if(!id.equals(korisnikUpdateDto.getEmail()) && korisnikRepository.existsById(korisnikUpdateDto.getEmail())) {
-			return null;
-		}
-		Korisnik korisnik=korisnikRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji", id)));
-		Korisnik korisnikTemp = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
-		if(korisnik != korisnikTemp) {
-			korisnikRepository.deleteById(korisnik.getEmail());
-			korisnik = korisnikTemp;
-		}
+	public KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) {
+		Korisnik korisnik = korisnikRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji", id)));
+		korisnik = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		korisnik = korisnikRepository.save(korisnik);
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public void deleteById(Long id) {
 		korisnikRepository.deleteById(id);
 	}
 	
@@ -67,8 +55,15 @@ public class KorisnikServiceImpl implements KorisnikService {
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Login information was incorrect, try again."));
 		Claims claims = Jwts.claims();
-		claims.put("id", korisnik.getEmail());
+		claims.put("id", korisnik.getId());
 		claims.put("role", Role.ROLE_USER.toString());
 		return new TokenResponseDto(tokenService.generate(claims));
 	}
+	
+	/*@Override
+	public Long getIdKorisnika(String authorization) {
+		Claims claims = tokenService.parseToken(authorization);
+		Long id = claims.get("id", Long.class);
+		return id;
+	}*/
 }

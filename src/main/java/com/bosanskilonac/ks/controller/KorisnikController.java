@@ -34,12 +34,8 @@ public class KorisnikController {
 	
 	@ApiOperation(value = "Registracija korisnika")
 	@PostMapping
-	public ResponseEntity<KorisnikDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto){
-		KorisnikDto korisnikDto = korisnikService.register(korisnikCreateDto);
-		if(korisnikDto == null) {
-			return new ResponseEntity<>(korisnikDto, HttpStatus.CONFLICT);
-		}
-		return new ResponseEntity<>(korisnikDto, HttpStatus.CREATED);
+	public ResponseEntity<KorisnikDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto) {
+		return new ResponseEntity<>(korisnikService.register(korisnikCreateDto), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Logovanje korisnika")
@@ -48,21 +44,23 @@ public class KorisnikController {
 		return new ResponseEntity<>(korisnikService.login(tokenRequestDto), HttpStatus.OK);
 	}
 	
+	/*@ApiOperation(value = "Prikazivanje id-a korisnika")
+	@GetMapping
+	public ResponseEntity<Long> getIdKorisnika(@RequestHeader("Authorization") String authorization) {
+		return new ResponseEntity<>(korisnikService.getIdKorisnika(authorization), HttpStatus.OK);
+	}*/
+	
 	@ApiOperation(value = "Izmena profila korisnika")
 	@PutMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})
-    public ResponseEntity<KorisnikDto> update(@RequestHeader("Authorization") String authorization, @PathVariable("id") String id, @RequestBody @Valid KorisnikCUDto korisnikUpdateDto) {
-		KorisnikDto korisnikDto = korisnikService.update(id, korisnikUpdateDto);
-		if(korisnikDto == null) {
-			return new ResponseEntity<>(korisnikDto, HttpStatus.CONFLICT);
-		}
-        return new ResponseEntity<>(korisnikDto, HttpStatus.OK);
+    public ResponseEntity<KorisnikDto> update(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, @RequestBody @Valid KorisnikCUDto korisnikUpdateDto) {
+        return new ResponseEntity<>(korisnikService.update(id, korisnikUpdateDto), HttpStatus.OK);
     }
 	
 	@ApiOperation(value = "Brisanje korisnika")
 	@DeleteMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})
-    public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") String id) {
+    public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
         korisnikService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

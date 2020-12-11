@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.bosanskilonac.ks.model.Korisnik;
 
 @Repository
-public interface KorisnikRepository extends JpaRepository<Korisnik, String> {
+public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 	Optional<Korisnik> findKorisnikByEmailAndSifra(String email, String sifra);
-	void deleteById(String id);
+	void deleteById(Long id);
 }

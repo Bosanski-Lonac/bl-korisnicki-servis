@@ -10,13 +10,6 @@ public class Admin {
 	@Id
 	private String username;
 	private String sifra;
-	
-	public Admin() {};
-	
-	public Admin(String username, String sifra) {
-		this.username = username;
-		this.sifra = sifra;
-	}
 
 	public String getUsername() {
 		return username;

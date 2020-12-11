@@ -11,6 +11,7 @@ import dto.KorisnikDto;
 public class KorisnikMapper {
 	public KorisnikDto korisnikToKorisnikDto(Korisnik korisnik) {
 		KorisnikDto korisnikDto=new KorisnikDto();
+		korisnikDto.setEmail(korisnik.getEmail());
 		korisnikDto.setIme(korisnik.getIme());
 		korisnikDto.setPrezime(korisnik.getPrezime());
 		korisnikDto.setBrojPasosa(korisnik.getBrojPasosa());
@@ -28,18 +29,7 @@ public class KorisnikMapper {
 	}
 	
 	public Korisnik korisnikUpdateDtoToKorisnik(KorisnikCUDto korisnikUpdateDto, Korisnik korisnik) {
-		//korisnik.setEmail(korisnikUpdateDto.getEmail());
-		if(!korisnikUpdateDto.getEmail().equals(korisnik.getEmail())) {
-			Korisnik korisnikTemp = new Korisnik();
-			korisnikTemp.setEmail(korisnikUpdateDto.getEmail());
-			korisnikTemp.setSifra(korisnik.getSifra());
-			korisnikTemp.setIme(korisnik.getIme());
-			korisnikTemp.setPrezime(korisnik.getPrezime());
-			korisnikTemp.setBrojPasosa(korisnik.getBrojPasosa());
-			korisnikTemp.setKartice(korisnik.getKartice());
-			korisnikTemp.setRank(korisnik.getRank());
-			korisnik = korisnikTemp;
-		}
+		korisnik.setEmail(korisnikUpdateDto.getEmail());
 		korisnik.setSifra(korisnikUpdateDto.getSifra());
 		korisnik.setIme(korisnikUpdateDto.getIme());
 		korisnik.setPrezime(korisnikUpdateDto.getPrezime());

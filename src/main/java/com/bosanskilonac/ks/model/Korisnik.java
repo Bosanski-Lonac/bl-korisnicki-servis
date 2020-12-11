@@ -1,9 +1,9 @@
 package com.bosanskilonac.ks.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -11,6 +11,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Korisnik {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Email
+	@Column(unique=true)
 	private String email;
 	@Column(unique=true, name="broj_pasosa")
 	private String brojPasosa;
@@ -22,6 +26,14 @@ public class Korisnik {
 	@Enumerated(EnumType.STRING)
 	private Rank rank;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getEmail() {
 		return email;
 	}
