@@ -7,11 +7,13 @@ import javax.validation.constraints.Email;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import enums.Rank;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Korisnik {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Email
 	@Column(unique=true)
