@@ -33,7 +33,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	public KorisnikDto register(KorisnikCUDto korisnikCreateDto) {
-		
 		if(korisnikRepository.existsById(korisnikCreateDto.getEmail())) {
 			return null;
 		}
@@ -44,6 +43,9 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	public KorisnikDto update(String id, KorisnikCUDto korisnikUpdateDto) {
+		if(!id.equals(korisnikUpdateDto.getEmail()) && korisnikRepository.existsById(korisnikUpdateDto.getEmail())) {
+			return null;
+		}
 		Korisnik korisnik=korisnikRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji", id)));
 		Korisnik korisnikTemp = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		if(korisnik != korisnikTemp) {

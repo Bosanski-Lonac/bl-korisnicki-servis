@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.bosanskilonac.ks.model.KreditnaKartica;
 
 @Repository
-public interface KreditnaKarticaRepository extends JpaRepository<KreditnaKartica, String> {
+public interface KreditnaKarticaRepository extends JpaRepository<KreditnaKartica, Long> {
 
 }

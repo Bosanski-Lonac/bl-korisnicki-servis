@@ -52,7 +52,11 @@ public class KorisnikController {
 	@PutMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})
     public ResponseEntity<KorisnikDto> update(@RequestHeader("Authorization") String authorization, @PathVariable("id") String id, @RequestBody @Valid KorisnikCUDto korisnikUpdateDto) {
-        return new ResponseEntity<>(korisnikService.update(id, korisnikUpdateDto), HttpStatus.OK);
+		KorisnikDto korisnikDto = korisnikService.update(id, korisnikUpdateDto);
+		if(korisnikDto == null) {
+			return new ResponseEntity<>(korisnikDto, HttpStatus.CONFLICT);
+		}
+        return new ResponseEntity<>(korisnikDto, HttpStatus.OK);
     }
 	
 	@ApiOperation(value = "Brisanje korisnika")
