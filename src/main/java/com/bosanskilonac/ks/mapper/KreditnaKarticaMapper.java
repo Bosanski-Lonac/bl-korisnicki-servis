@@ -8,7 +8,7 @@ import com.bosanskilonac.ks.repository.KorisnikRepository;
 
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
-import helpers.NotFoundException;
+import exceptions.NotFoundException;
 
 @Component
 public class KreditnaKarticaMapper {

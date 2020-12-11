@@ -50,13 +50,7 @@
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger2</artifactId>
         <version>${swagger.version}</version>
-    </dependency>
-    <!-- Security -->
-    <dependency>
-        <groupId>io.jsonwebtoken</groupId>
-        <artifactId>jjwt</artifactId>
-        <version>0.6.0</version>
-    </dependency>        
+    </dependency>      
     <!-- AMQ -->
     <dependency>
         <groupId>org.springframework.boot</groupId>

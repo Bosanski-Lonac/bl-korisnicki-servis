@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 import com.bosanskilonac.ks.model.Admin;
 import com.bosanskilonac.ks.repository.AdminRepository;
 import com.bosanskilonac.ks.service.AdminService;
-import com.bosanskilonac.ks.service.TokenService;
 
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import enums.Role;
-import helpers.NotFoundException;
+import exceptions.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import security.TokenService;
 
 @Service
 public class AdminServiceImpl implements AdminService {

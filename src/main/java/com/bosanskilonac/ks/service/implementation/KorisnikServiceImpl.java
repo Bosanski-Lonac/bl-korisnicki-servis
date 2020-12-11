@@ -6,16 +6,16 @@ import com.bosanskilonac.ks.mapper.KorisnikMapper;
 import com.bosanskilonac.ks.model.Korisnik;
 import com.bosanskilonac.ks.repository.KorisnikRepository;
 import com.bosanskilonac.ks.service.KorisnikService;
-import com.bosanskilonac.ks.service.TokenService;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import enums.Role;
-import helpers.NotFoundException;
+import exceptions.NotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import security.TokenService;
 
 @Service
 public class KorisnikServiceImpl implements KorisnikService {
