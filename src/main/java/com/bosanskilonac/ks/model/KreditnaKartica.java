@@ -1,6 +1,8 @@
 package com.bosanskilonac.ks.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,20 +16,12 @@ public class KreditnaKartica {
 	private String imeVlasnika;
 	@Column(name="prezime_vlasnika")
 	private String prezimeVlasnika;
+	@Min(value = 100)
+	@Max(value = 999)
 	@Column(name="sigurnosni_broj")
 	private Integer sigurnosniBroj;
 	@ManyToOne
 	private Korisnik korisnik;
-	
-	public KreditnaKartica() {};
-	
-	public KreditnaKartica(Long brojKartice, String imeVlasnika, String prezimeVlasnika, Integer sigurnosniBroj) {
-		super();
-		this.brojKartice = brojKartice;
-		this.imeVlasnika = imeVlasnika;
-		this.prezimeVlasnika = prezimeVlasnika;
-		this.sigurnosniBroj = sigurnosniBroj;
-	}
 	
 	public Long getBrojKartice() {
 		return brojKartice;
@@ -58,9 +52,7 @@ public class KreditnaKartica {
 	}
 
 	public void setSigurnosniBroj(Integer sigurnosniBroj) {
-		if(sigurnosniBroj.toString().length()==3) {
-			this.sigurnosniBroj = sigurnosniBroj;
-		}
+		this.sigurnosniBroj = sigurnosniBroj;
 	}
 
 	public Korisnik getKorisnik() {

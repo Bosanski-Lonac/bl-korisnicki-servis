@@ -26,4 +26,24 @@ public class KorisnikMapper {
 		korisnik.setBrojPasosa(korisnikCreateDto.getBrojPasosa());
 		return korisnik;
 	}
+	
+	public Korisnik korisnikUpdateDtoToKorisnik(KorisnikCUDto korisnikUpdateDto, Korisnik korisnik) {
+		//korisnik.setEmail(korisnikUpdateDto.getEmail());
+		if(!korisnikUpdateDto.getEmail().equals(korisnik.getEmail())) {
+			Korisnik korisnikTemp = new Korisnik();
+			korisnikTemp.setEmail(korisnikUpdateDto.getEmail());
+			korisnikTemp.setSifra(korisnik.getSifra());
+			korisnikTemp.setIme(korisnik.getIme());
+			korisnikTemp.setPrezime(korisnik.getPrezime());
+			korisnikTemp.setBrojPasosa(korisnik.getBrojPasosa());
+			korisnikTemp.setKartice(korisnik.getKartice());
+			korisnikTemp.setRank(korisnik.getRank());
+			korisnik = korisnikTemp;
+		}
+		korisnik.setSifra(korisnikUpdateDto.getSifra());
+		korisnik.setIme(korisnikUpdateDto.getIme());
+		korisnik.setPrezime(korisnikUpdateDto.getPrezime());
+		korisnik.setBrojPasosa(korisnikUpdateDto.getBrojPasosa());
+		return korisnik;
+	}
 }

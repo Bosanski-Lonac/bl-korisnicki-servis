@@ -23,10 +23,10 @@ public class KreditnaKarticaMapper {
 	}
 	
 	public KreditnaKartica kreditnaKarticaDtoToKreditnaKartica(KreditnaKarticaCUDto kreditnaKarticaCreateDto) {
-		KreditnaKartica kreditnaKartica=new KreditnaKartica();
 		Korisnik korisnik = korisnikRepository
 				.findById(kreditnaKarticaCreateDto.getKorisnikEmail())
 				.orElseThrow(() -> new NotFoundException("User to add credit card to was not found."));
+		KreditnaKartica kreditnaKartica=new KreditnaKartica();
 		kreditnaKartica.setBrojKartice(kreditnaKarticaCreateDto.getBrojKartice());
 		kreditnaKartica.setImeVlasnika(kreditnaKarticaCreateDto.getImeVlasnika());
 		kreditnaKartica.setPrezimeVlasnika(kreditnaKarticaCreateDto.getPrezimeVlasnika());

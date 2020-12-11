@@ -22,25 +22,20 @@ public class Korisnik {
 	@Enumerated(EnumType.STRING)
 	private Rank rank;
 	
-	public Korisnik() {};
-	
-	public Korisnik(String brojPasosa, String ime, String prezime, String email, String sifra) {
-		this.brojPasosa=brojPasosa;
-		this.ime=ime;
-		this.prezime=prezime;
-		this.email=email;
-		this.sifra=sifra;
-		kartice=new ArrayList<>();
+	public String getEmail() {
+		return email;
 	}
 
-	public String getBrojPasosa() {
-		return brojPasosa;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void setBrojPasosa(String brojPasosa) {
-		if(brojPasosa.length()==9) {
-			this.brojPasosa = brojPasosa;
-		}
+	public String getSifra() {
+		return sifra;
+	}
+
+	public void setSifra(String sifra) {
+		this.sifra = sifra;
 	}
 
 	public String getIme() {
@@ -58,21 +53,15 @@ public class Korisnik {
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
-
-	public String getEmail() {
-		return email;
+	
+	public String getBrojPasosa() {
+		return brojPasosa;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSifra() {
-		return sifra;
-	}
-
-	public void setSifra(String sifra) {
-		this.sifra = sifra;
+	public void setBrojPasosa(String brojPasosa) {
+		if(brojPasosa.length()==9) {
+			this.brojPasosa = brojPasosa;
+		}
 	}
 
 	public List<KreditnaKartica> getKartice() {
@@ -81,6 +70,10 @@ public class Korisnik {
 
 	public void setKartice(List<KreditnaKartica> kartice) {
 		this.kartice = kartice;
+		/*this.kartice.clear();
+	    if (kartice != null) {
+	        this.kartice.addAll(kartice);
+	    }*/
 	}
 
 	public Rank getRank() {

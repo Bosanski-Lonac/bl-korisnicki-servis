@@ -1,5 +1,7 @@
 package com.bosanskilonac.ks.service.implementation;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.mapper.KorisnikMapper;
@@ -31,20 +33,25 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	public KorisnikDto register(KorisnikCUDto korisnikCreateDto) {
+		
+		if(korisnikRepository.existsById(korisnikCreateDto.getEmail())) {
+			return null;
+		}
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
-		korisnikRepository.save(korisnik);
+		korisnik = korisnikRepository.save(korisnik);
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
 	@Override
 	public KorisnikDto update(String id, KorisnikCUDto korisnikUpdateDto) {
 		Korisnik korisnik=korisnikRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji", id)));
-		korisnik.setEmail(korisnikUpdateDto.getEmail());
-		korisnik.setSifra(korisnikUpdateDto.getSifra());
-		korisnik.setIme(korisnikUpdateDto.getIme());
-		korisnik.setPrezime(korisnikUpdateDto.getPrezime());
-		korisnik.setBrojPasosa(korisnikUpdateDto.getBrojPasosa());
-		return korisnikMapper.korisnikToKorisnikDto(korisnikRepository.save(korisnik));
+		Korisnik korisnikTemp = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
+		if(korisnik != korisnikTemp) {
+			korisnikRepository.deleteById(korisnik.getEmail());
+			korisnik = korisnikTemp;
+		}
+		korisnik = korisnikRepository.save(korisnik);
+		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
 	@Override

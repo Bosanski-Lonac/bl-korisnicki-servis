@@ -35,7 +35,11 @@ public class KorisnikController {
 	@ApiOperation(value = "Registracija korisnika")
 	@PostMapping
 	public ResponseEntity<KorisnikDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto){
-		return new ResponseEntity<>(korisnikService.register(korisnikCreateDto), HttpStatus.CREATED);
+		KorisnikDto korisnikDto = korisnikService.register(korisnikCreateDto);
+		if(korisnikDto == null) {
+			return new ResponseEntity<>(korisnikDto, HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<>(korisnikDto, HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Logovanje korisnika")
