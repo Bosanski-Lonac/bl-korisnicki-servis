@@ -13,7 +13,7 @@ import enums.Rank;
 @EntityListeners(AuditingEntityListener.class)
 public class Korisnik {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Email
 	@Column(unique=true)
