@@ -59,10 +59,4 @@ public class KorisnikServiceImpl implements KorisnikService {
 		claims.put("role", Role.ROLE_USER.toString());
 		return new TokenResponseDto(tokenService.generate(claims));
 	}
-	
-	/*@Override
-	public Long getIdKorisnika(String authorization) {
-		Long korisnikId = tokenService.getIdFromToken(authorization);
-		return id;
-	}*/
 }

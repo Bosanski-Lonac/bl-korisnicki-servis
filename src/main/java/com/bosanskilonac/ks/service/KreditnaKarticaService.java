@@ -8,6 +8,6 @@ import dto.KreditnaKarticaDto;
 
 public interface KreditnaKarticaService {
 	KreditnaKarticaDto add(String authorization, KreditnaKarticaCUDto kreditnaKarticaCreateDto);
-	void deleteById(Long id);
+	void deleteById(String authorization, Long id);
 	Page<KreditnaKarticaDto> findAll(String authorization, Pageable pageable);
 }

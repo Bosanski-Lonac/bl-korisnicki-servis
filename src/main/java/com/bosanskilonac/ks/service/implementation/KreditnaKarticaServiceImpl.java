@@ -42,8 +42,14 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		ccRepository.deleteById(id);
+	public void deleteById(String authorization, Long id) {
+		Long korisnikId = tokenService.getIdFromToken(authorization);
+		KreditnaKartica kreditnaKartica = ccRepository
+				.findById(id)
+				.orElseThrow(() -> new NotFoundException("Credit card not found"));
+		if(kreditnaKartica.getKorisnik().getId().equals(korisnikId)) {
+			ccRepository.deleteById(id);
+		}
 	}
 
 	@Override

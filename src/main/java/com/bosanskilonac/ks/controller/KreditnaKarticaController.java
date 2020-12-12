@@ -51,7 +51,7 @@ public class KreditnaKarticaController {
 	@DeleteMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER}, checkOwnership = false)
 	public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
-		ccService.deleteById(id);
+		ccService.deleteById(authorization, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -13,6 +13,4 @@ public interface KorisnikService {
 	void deleteById(Long id);
 	
 	TokenResponseDto login(TokenRequestDto tokenRequestDto);
-
-	//Long getIdKorisnika(String authorization);
 }
