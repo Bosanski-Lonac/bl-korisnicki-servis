@@ -1,5 +1,7 @@
 package com.bosanskilonac.ks.service.implementation;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import com.bosanskilonac.ks.service.KreditnaKarticaService;
 
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
+import exceptions.CustomException;
+import exceptions.NotAuthorizedException;
 import exceptions.NotFoundException;
 import security.TokenService;
 
@@ -31,24 +35,26 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 	}
 
 	@Override
-	public KreditnaKarticaDto add(String authorization, KreditnaKarticaCUDto kreditnaKarticaCreateDto) {
+	public KreditnaKarticaDto add(String authorization, KreditnaKarticaCUDto kreditnaKarticaCreateDto) throws NotFoundException {
 		Long korisnikId = tokenService.getIdFromToken(authorization);
 		Korisnik korisnik = korisnikRepository
 				.findById(korisnikId)
-				.orElseThrow(() -> new NotFoundException("Couldn't find user attempting to add credit card"));
+				.orElseThrow(() -> new NotFoundException("Trenutni korisnik ne postoji."));
 		KreditnaKartica kreditnaKartica = ccMapper.kreditnaKarticaDtoToKreditnaKartica(kreditnaKarticaCreateDto, korisnik);
 		kreditnaKartica = ccRepository.save(kreditnaKartica);
 		return ccMapper.kreditnaKarticaToKreditnaKarticaDto(kreditnaKartica);
 	}
 
 	@Override
-	public void deleteById(String authorization, Long id) {
+	public void deleteById(String authorization, Long id) throws CustomException {
 		Long korisnikId = tokenService.getIdFromToken(authorization);
 		KreditnaKartica kreditnaKartica = ccRepository
 				.findById(id)
-				.orElseThrow(() -> new NotFoundException("Credit card not found"));
+				.orElseThrow(() -> new NotFoundException("Kreditna kartica nije nađena."));
 		if(kreditnaKartica.getKorisnik().getId().equals(korisnikId)) {
 			ccRepository.deleteById(id);
+		} else {
+			throw new NotAuthorizedException("Trenutni korisnik nema pristup ovoj kreditnog kartici.");
 		}
 	}
 

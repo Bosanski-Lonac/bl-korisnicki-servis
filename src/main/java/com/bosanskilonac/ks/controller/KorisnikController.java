@@ -44,12 +44,6 @@ public class KorisnikController {
 		return new ResponseEntity<>(korisnikService.login(tokenRequestDto), HttpStatus.OK);
 	}
 	
-	/*@ApiOperation(value = "Prikazivanje id-a korisnika")
-	@GetMapping
-	public ResponseEntity<Long> getIdKorisnika(@RequestHeader("Authorization") String authorization) {
-		return new ResponseEntity<>(korisnikService.getIdKorisnika(authorization), HttpStatus.OK);
-	}*/
-	
 	@ApiOperation(value = "Izmena profila korisnika")
 	@PutMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})

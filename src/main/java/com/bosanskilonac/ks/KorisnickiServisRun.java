@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@ComponentScan({"com.bosanskilonac.ks", "security"})
+@ComponentScan({"com.bosanskilonac.ks", "security", "exceptions"})
 public class KorisnickiServisRun {
 	
 	public static void main(String[] args) {

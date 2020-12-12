@@ -1,5 +1,7 @@
 package com.bosanskilonac.ks.service.implementation;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.model.Admin;
@@ -25,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public TokenResponseDto login(TokenRequestDto tokenRequestDto) {
+	public TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException {
 		Admin admin = adminRepository
 				.findAdminByUsernameAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Login information was incorrect, try again."));
