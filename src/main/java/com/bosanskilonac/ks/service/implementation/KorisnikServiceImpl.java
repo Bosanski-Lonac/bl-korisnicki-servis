@@ -63,12 +63,9 @@ public class KorisnikServiceImpl implements KorisnikService {
 		Korisnik korisnik = korisnikRepository
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
-		for(Korisnik kor : korisnikRepository.findAll()) {
-			System.out.println(kor.getId());
-		}
 		Claims claims = Jwts.claims();
 		claims.put("id", korisnik.getId());
 		claims.put("role", Role.ROLE_USER.toString());
-		return new TokenResponseDto(tokenService.generate(claims));
+		return new TokenResponseDto(tokenService.generate(claims), korisnik.getId());
 	}
 }
