@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import security.CheckSecurity;
 
 @RestController
-@RequestMapping("/cc")
+@RequestMapping("/korisnik/{id}/cc")
 public class KreditnaKarticaController {
 	private KreditnaKarticaService ccService;
 	
@@ -34,24 +34,26 @@ public class KreditnaKarticaController {
 	
 	@ApiOperation(value = "Dodavanje kartice")
 	@PostMapping
-	@CheckSecurity(roles = {Role.ROLE_USER}, checkOwnership = false)
-	public ResponseEntity<KreditnaKarticaDto> add(@RequestHeader("Authorization") String authorization, @RequestBody @Valid KreditnaKarticaCUDto kreditnaKarticaCreateDto) {
-		return new ResponseEntity<>(ccService.add(authorization, kreditnaKarticaCreateDto), HttpStatus.CREATED);
+	@CheckSecurity(roles = {Role.ROLE_USER})
+	public ResponseEntity<KreditnaKarticaDto> add(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, 
+			@RequestBody @Valid KreditnaKarticaCUDto kreditnaKarticaCreateDto) {
+		return new ResponseEntity<>(ccService.add(id, kreditnaKarticaCreateDto), HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Prikazi sve kreditne kartice za trenutnog korisnika")
+	@ApiOperation(value = "Prikaz svih kreditnih kartica za trenutnog korisnika")
 	@GetMapping
-	@CheckSecurity(roles = {Role.ROLE_USER}, checkOwnership = false)
-	public ResponseEntity<Page<KreditnaKarticaDto>> getAllCC(@RequestHeader("Authorization") String authorization,
+	@CheckSecurity(roles = {Role.ROLE_USER})
+	public ResponseEntity<Page<KreditnaKarticaDto>> getAllCC(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
             Pageable pageable) {
-		return new ResponseEntity<>(ccService.findAll(authorization, pageable), HttpStatus.OK);
+		return new ResponseEntity<>(ccService.findAll(id, pageable), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Brisanje kreditne kartice")
-	@DeleteMapping("/{id}")
-	@CheckSecurity(roles = {Role.ROLE_USER}, checkOwnership = false)
-	public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
-		ccService.deleteById(authorization, id);
+	@DeleteMapping("/{ccId}")
+	@CheckSecurity(roles = {Role.ROLE_USER})
+	public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
+			@PathVariable("ccId") Long ccId) {
+		ccService.deleteById(ccId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

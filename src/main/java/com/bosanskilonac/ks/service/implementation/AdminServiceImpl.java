@@ -1,7 +1,5 @@
 package com.bosanskilonac.ks.service.implementation;
 
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.model.Admin;

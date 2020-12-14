@@ -3,6 +3,7 @@ package com.bosanskilonac.ks.service;
 import javax.transaction.Transactional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
@@ -17,7 +18,7 @@ public interface KorisnikService {
 	
 	KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException;
 	
-	void deleteById(Long id);
+	void deleteById(Long id) throws EmptyResultDataAccessException;
 	
 	TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException;
 }
