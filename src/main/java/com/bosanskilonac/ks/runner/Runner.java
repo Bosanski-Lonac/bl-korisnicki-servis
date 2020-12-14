@@ -5,6 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.bosanskilonac.ks.model.Admin;
+import com.bosanskilonac.ks.repository.AdminRepository;
+
 import security.EmailSender;
 import security.TokenService;
 
@@ -16,9 +19,11 @@ public class Runner implements CommandLineRunner {
 	@Value("${control.email.password}")
 	private String emailPassword;
 	
+	private AdminRepository adminRepository;
 	private TokenService tokenService;
 
-	public Runner(TokenService tokenService) {
+	public Runner(AdminRepository adminRepository, TokenService tokenService) {
+		this.adminRepository = adminRepository;
 		this.tokenService = tokenService;
 	}
 
@@ -26,6 +31,16 @@ public class Runner implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		tokenService.setSecret(jwtSecret);
 		EmailSender.getInstance().setPassword(emailPassword);
+		
+		Admin admin1 = new Admin();
+		admin1.setUsername("androoideka");
+		admin1.setSifra("test123");
+		adminRepository.save(admin1);
+		
+		Admin admin2 = new Admin();
+		admin2.setUsername("sbudimac");
+		admin2.setSifra("test321");
+		adminRepository.save(admin2);
 	}
 
 }

@@ -14,7 +14,9 @@ import exceptions.NotFoundException;
 
 @Transactional
 public interface KorisnikService {
-	KorisnikDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException;
+	TokenResponseDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException;
+	
+	KorisnikDto get(Long id) throws NotFoundException;
 	
 	KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException;
 	

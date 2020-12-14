@@ -17,8 +17,6 @@ import dto.TokenResponseDto;
 import enums.Role;
 import exceptions.CustomException;
 import exceptions.NotFoundException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import security.EmailSender;
 import security.TokenService;
 
@@ -36,18 +34,28 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	@Transactional(rollbackOn = DataIntegrityViolationException.class)
-	public KorisnikDto register(KorisnikCUDto korisnikCreateDto) {
+	public TokenResponseDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
+		//EmailSender.getInstance().sendEmail(korisnikDto.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
+		return tokenService.createToken(korisnik.getId(), Role.ROLE_USER);
+	}
+	
+	@Override
+	public KorisnikDto get(Long id) throws NotFoundException {
+		Korisnik korisnik = korisnikRepository
+				.findById(id)
+				.orElseThrow(() -> new NotFoundException("Korisnik nije nađen."));
 		KorisnikDto korisnikDto = korisnikMapper.korisnikToKorisnikDto(korisnik);
-		EmailSender.getInstance().sendEmail(korisnikDto.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
 		return korisnikDto;
 	}
 
 	@Override
 	@Transactional(rollbackOn = DataIntegrityViolationException.class)
 	public KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException {
-		Korisnik korisnik = korisnikRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji", id)));
+		Korisnik korisnik = korisnikRepository
+				.findById(id)
+				.orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji.", id)));
 		korisnik = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		korisnik = korisnikRepository.save(korisnik);
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
@@ -63,9 +71,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 		Korisnik korisnik = korisnikRepository
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
-		Claims claims = Jwts.claims();
-		claims.put("id", korisnik.getId());
-		claims.put("role", Role.ROLE_USER.toString());
-		return new TokenResponseDto(tokenService.generate(claims), korisnik.getId());
+		return tokenService.createToken(korisnik.getId(), Role.ROLE_USER);
 	}
 }

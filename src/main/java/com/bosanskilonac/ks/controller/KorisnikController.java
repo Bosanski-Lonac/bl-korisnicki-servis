@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,15 +35,22 @@ public class KorisnikController {
 	
 	@ApiOperation(value = "Registracija korisnika")
 	@PostMapping
-	public ResponseEntity<KorisnikDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto) {
+	public ResponseEntity<TokenResponseDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto) {
 		return new ResponseEntity<>(korisnikService.register(korisnikCreateDto), HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Logovanje korisnika")
+	@ApiOperation(value = "Prijava korisnika")
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponseDto> loginKorisnik(@RequestBody @Valid TokenRequestDto tokenRequestDto) {
 		return new ResponseEntity<>(korisnikService.login(tokenRequestDto), HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "Prikaz detalja korisnika")
+	@GetMapping("/{id}")
+	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})
+	public ResponseEntity<KorisnikDto> get(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(korisnikService.get(id), HttpStatus.OK);
+    }
 	
 	@ApiOperation(value = "Izmena profila korisnika")
 	@PutMapping("/{id}")
