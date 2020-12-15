@@ -14,7 +14,6 @@ import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
-import enums.Role;
 import exceptions.CustomException;
 import exceptions.NotFoundException;
 import security.EmailSender;
@@ -38,7 +37,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
 		//EmailSender.getInstance().sendEmail(korisnikDto.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
-		return tokenService.createToken(korisnik.getId(), Role.ROLE_USER);
+		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 	
 	@Override
@@ -71,6 +70,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 		Korisnik korisnik = korisnikRepository
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
-		return tokenService.createToken(korisnik.getId(), Role.ROLE_USER);
+		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 }

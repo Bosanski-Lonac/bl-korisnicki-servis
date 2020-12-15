@@ -2,19 +2,32 @@ package com.bosanskilonac.ks.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.bosanskilonac.ks.model.Admin;
 import com.bosanskilonac.ks.model.Korisnik;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
+import enums.Rank;
+import enums.Role;
 
 @Component
 public class KorisnikMapper {
 	public KorisnikDto korisnikToKorisnikDto(Korisnik korisnik) {
 		KorisnikDto korisnikDto=new KorisnikDto();
-		korisnikDto.setEmail(korisnik.getEmail());
+		korisnikDto.setId(korisnik.getId());
+		korisnikDto.setUsername(korisnik.getEmail());
+		korisnikDto.setRole(Role.ROLE_USER);
 		korisnikDto.setIme(korisnik.getIme());
 		korisnikDto.setPrezime(korisnik.getPrezime());
 		korisnikDto.setBrojPasosa(korisnik.getBrojPasosa());
+		return korisnikDto;
+	}
+	
+	public KorisnikDto adminToKorisnikDto(Admin admin) {
+		KorisnikDto korisnikDto=new KorisnikDto();
+		korisnikDto.setId(admin.getId());
+		korisnikDto.setUsername(admin.getUsername());
+		korisnikDto.setRole(Role.ROLE_ADMIN);
 		return korisnikDto;
 	}
 	
@@ -25,6 +38,7 @@ public class KorisnikMapper {
 		korisnik.setIme(korisnikCreateDto.getIme());
 		korisnik.setPrezime(korisnikCreateDto.getPrezime());
 		korisnik.setBrojPasosa(korisnikCreateDto.getBrojPasosa());
+		korisnik.setRank(Rank.BRONZA);
 		return korisnik;
 	}
 	

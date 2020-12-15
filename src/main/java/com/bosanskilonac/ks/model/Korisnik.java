@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,6 +26,7 @@ public class Korisnik {
 	private String sifra;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "korisnik", orphanRemoval = true)
 	private List<KreditnaKartica> kartice;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Rank rank;
 	
