@@ -20,6 +20,7 @@ public class KorisnikMapper {
 		korisnikDto.setIme(korisnik.getIme());
 		korisnikDto.setPrezime(korisnik.getPrezime());
 		korisnikDto.setBrojPasosa(korisnik.getBrojPasosa());
+		korisnikDto.setRank(korisnik.getRank());
 		return korisnikDto;
 	}
 	
