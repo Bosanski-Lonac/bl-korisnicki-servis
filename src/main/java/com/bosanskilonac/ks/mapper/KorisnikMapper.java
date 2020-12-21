@@ -29,7 +29,7 @@ public class KorisnikMapper {
 		KorisnikDto korisnikDto=new KorisnikDto();
 		korisnikDto.setId(admin.getId());
 		korisnikDto.setUsername(admin.getUsername());
-		korisnikDto.setRole(Role.ROLE_ADMIN);
+		korisnikDto.setRole(admin.getRole());
 		return korisnikDto;
 	}
 	

@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 import com.bosanskilonac.ks.model.Admin;
 import com.bosanskilonac.ks.repository.AdminRepository;
 
-import security.EmailSender;
+import enums.Role;
 import security.TokenService;
+import utility.EmailSender;
 
 @Profile({"default"})
 @Component
@@ -35,12 +36,20 @@ public class Runner implements CommandLineRunner {
 		Admin admin1 = new Admin();
 		admin1.setUsername("androoideka");
 		admin1.setSifra("test123");
+		admin1.setRole(Role.ROLE_ADMIN);
 		adminRepository.save(admin1);
 		
 		Admin admin2 = new Admin();
 		admin2.setUsername("sbudimac");
 		admin2.setSifra("test321");
+		admin2.setRole(Role.ROLE_ADMIN);
 		adminRepository.save(admin2);
+		
+		Admin service = new Admin();
+		service.setUsername("microservice-access-point");
+		service.setSifra("XUhsqdFpmLkh75qwHnSzPpNz");
+		service.setRole(Role.ROLE_SERVICE);
+		adminRepository.save(service);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.bosanskilonac.ks.model;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -12,10 +13,13 @@ public class KreditnaKartica {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Min(value = 100000000L)
 	@Column(name="broj_kartice")
 	private Long brojKartice;
+	@NotBlank
 	@Column(name="ime_vlasnika")
 	private String imeVlasnika;
+	@NotBlank
 	@Column(name="prezime_vlasnika")
 	private String prezimeVlasnika;
 	@Min(value = 100)
