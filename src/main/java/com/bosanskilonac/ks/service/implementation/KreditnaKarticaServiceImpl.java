@@ -2,7 +2,7 @@ package com.bosanskilonac.ks.service.implementation;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.mapper.KreditnaKarticaMapper;
@@ -18,6 +18,8 @@ import exceptions.NotFoundException;
 
 @Service
 public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
+	private final int velicinaStranice = 20;
+	
 	private KreditnaKarticaRepository ccRepository;
 	private KreditnaKarticaMapper ccMapper;
 	private KorisnikRepository korisnikRepository;
@@ -37,16 +39,16 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 		kreditnaKartica = ccRepository.save(kreditnaKartica);
 		return ccMapper.kreditnaKarticaToKreditnaKarticaDto(kreditnaKartica);
 	}
+	
+	@Override
+	public Page<KreditnaKarticaDto> findAll(Long id, Integer brojStranice) throws EmptyResultDataAccessException {
+		return ccRepository.findByKorisnikId(id, PageRequest.of(brojStranice, velicinaStranice))
+				.map(ccMapper::kreditnaKarticaToKreditnaKarticaDto);
+	}
 
 	@Override
 	public void deleteById(Long ccId) throws EmptyResultDataAccessException {
 		ccRepository.deleteById(ccId);
-	}
-
-	@Override
-	public Page<KreditnaKarticaDto> findAll(Long id, Pageable pageable) throws EmptyResultDataAccessException {
-		return ccRepository.findByKorisnikId(id, pageable)
-				.map(ccMapper::kreditnaKarticaToKreditnaKarticaDto);
 	}
 
 }

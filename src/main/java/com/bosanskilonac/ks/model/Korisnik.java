@@ -4,11 +4,10 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import enums.Rank;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -19,16 +18,19 @@ public class Korisnik {
 	@Email
 	@Column(unique=true)
 	private String email;
+	@NotBlank
 	@Column(unique=true, name="broj_pasosa")
 	private String brojPasosa;
+	@NotBlank
 	private String ime;
+	@NotBlank
 	private String prezime;
+	@NotBlank
 	private String sifra;
+	@PositiveOrZero
+	private Integer milje;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "korisnik", orphanRemoval = true)
 	private List<KreditnaKartica> kartice;
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Rank rank;
 	
 	public Long getId() {
 		return id;
@@ -80,23 +82,19 @@ public class Korisnik {
 		}
 	}
 
+	public Integer getMilje() {
+		return milje;
+	}
+
+	public void setMilje(Integer milje) {
+		this.milje = milje;
+	}
+
 	public List<KreditnaKartica> getKartice() {
 		return kartice;
 	}
 
 	public void setKartice(List<KreditnaKartica> kartice) {
 		this.kartice = kartice;
-		/*this.kartice.clear();
-	    if (kartice != null) {
-	        this.kartice.addAll(kartice);
-	    }*/
-	}
-
-	public Rank getRank() {
-		return rank;
-	}
-
-	public void setRank(Rank rank) {
-		this.rank = rank;
 	}
 }

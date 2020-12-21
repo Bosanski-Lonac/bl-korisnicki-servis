@@ -20,7 +20,8 @@ public class KorisnikMapper {
 		korisnikDto.setIme(korisnik.getIme());
 		korisnikDto.setPrezime(korisnik.getPrezime());
 		korisnikDto.setBrojPasosa(korisnik.getBrojPasosa());
-		korisnikDto.setRank(korisnik.getRank());
+		Rank rank = Rank.getRankForMilje(korisnik.getMilje());
+		korisnikDto.setRank(rank);
 		return korisnikDto;
 	}
 	
@@ -39,7 +40,7 @@ public class KorisnikMapper {
 		korisnik.setIme(korisnikCreateDto.getIme());
 		korisnik.setPrezime(korisnikCreateDto.getPrezime());
 		korisnik.setBrojPasosa(korisnikCreateDto.getBrojPasosa());
-		korisnik.setRank(Rank.BRONZA);
+		korisnik.setMilje(0);
 		return korisnik;
 	}
 	

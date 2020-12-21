@@ -21,7 +21,6 @@ public class AdminController {
 	private AdminService adminService;
 
 	public AdminController(AdminService adminService) {
-		super();
 		this.adminService = adminService;
 	}
 

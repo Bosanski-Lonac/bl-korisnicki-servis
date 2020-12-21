@@ -3,7 +3,6 @@ package com.bosanskilonac.ks.controller;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bosanskilonac.ks.service.KreditnaKarticaService;
@@ -44,8 +44,8 @@ public class KreditnaKarticaController {
 	@GetMapping
 	@CheckSecurity(roles = {Role.ROLE_USER})
 	public ResponseEntity<Page<KreditnaKarticaDto>> getAllCC(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
-            Pageable pageable) {
-		return new ResponseEntity<>(ccService.findAll(id, pageable), HttpStatus.OK);
+			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
+		return new ResponseEntity<>(ccService.findAll(id, brojStranice), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Brisanje kreditne kartice")
