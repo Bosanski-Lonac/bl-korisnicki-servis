@@ -10,12 +10,10 @@ import com.bosanskilonac.ks.model.Korisnik;
 import com.bosanskilonac.ks.repository.KorisnikRepository;
 import com.bosanskilonac.ks.service.KorisnikService;
 
-import dto.DiscountDto;
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
-import enums.Rank;
 import exceptions.CustomException;
 import exceptions.NotFoundException;
 import security.TokenService;
@@ -40,17 +38,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 		korisnik = korisnikRepository.save(korisnik);
 		//EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
-	}
-	
-	@Override
-	public DiscountDto getDiscount(Long id) throws NotFoundException {
-		Korisnik korisnik = korisnikRepository
-				.findById(id)
-				.orElseThrow(() -> new NotFoundException("Korisnik nije nađen."));
-		Integer discount = Rank.getRankForMilje(korisnik.getMilje()).getPopust();
-		DiscountDto discountDto = new DiscountDto();
-		discountDto.setDiscount(discount);
-		return discountDto;
 	}
 	
 	@Override

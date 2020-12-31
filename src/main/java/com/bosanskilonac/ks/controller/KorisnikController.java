@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosanskilonac.ks.service.KorisnikService;
 
-import dto.DiscountDto;
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.TokenRequestDto;
@@ -45,13 +44,6 @@ public class KorisnikController {
 	public ResponseEntity<TokenResponseDto> loginKorisnik(@RequestBody @Valid TokenRequestDto tokenRequestDto) {
 		return new ResponseEntity<>(korisnikService.login(tokenRequestDto), HttpStatus.OK);
 	}
-	
-	@ApiOperation(value = "Vrati rank korisnika")
-	@GetMapping("/rank/{id}")
-	@CheckSecurity(roles = {Role.ROLE_SERVICE}, checkOwnership = false)
-	public ResponseEntity<DiscountDto> getDiscount(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
-        return new ResponseEntity<>(korisnikService.getDiscount(id), HttpStatus.OK);
-    }
 	
 	@ApiOperation(value = "Prikaz detalja korisnika")
 	@GetMapping("/{id}")

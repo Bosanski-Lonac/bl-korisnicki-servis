@@ -5,7 +5,6 @@ import javax.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import dto.DiscountDto;
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.TokenRequestDto;
@@ -16,8 +15,6 @@ import exceptions.NotFoundException;
 @Transactional
 public interface KorisnikService {
 	TokenResponseDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException;
-	
-	DiscountDto getDiscount(Long id) throws NotFoundException;
 	
 	KorisnikDto get(Long id) throws NotFoundException;
 	

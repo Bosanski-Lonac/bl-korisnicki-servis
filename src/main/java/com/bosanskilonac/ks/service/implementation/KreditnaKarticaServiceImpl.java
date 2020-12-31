@@ -1,5 +1,7 @@
 package com.bosanskilonac.ks.service.implementation;
 
+import java.math.BigDecimal;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,8 +14,10 @@ import com.bosanskilonac.ks.repository.KorisnikRepository;
 import com.bosanskilonac.ks.repository.KreditnaKarticaRepository;
 import com.bosanskilonac.ks.service.KreditnaKarticaService;
 
+import dto.KartaCUDto;
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
+import enums.Rank;
 import exceptions.NotFoundException;
 
 @Service
@@ -44,6 +48,17 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 	public Page<KreditnaKarticaDto> findAll(Long id, Integer brojStranice) throws EmptyResultDataAccessException {
 		return ccRepository.findByKorisnikId(id, PageRequest.of(brojStranice, velicinaStranice))
 				.map(ccMapper::kreditnaKarticaToKreditnaKarticaDto);
+	}
+
+	@Override
+	public KartaCUDto reserve(KartaCUDto kartaCreateDto) throws NotFoundException {
+		KreditnaKartica kreditnaKartica = ccRepository
+				.findById(kartaCreateDto.getKreditnaKarticaId())
+				.orElseThrow(() -> new NotFoundException("Tražena kreditna kartica ne postoji."));
+		Integer discount = Rank.getRankForMilje(kreditnaKartica.getKorisnik().getMilje()).getPopust();
+		kartaCreateDto.setCena(kartaCreateDto.getCena().divide(BigDecimal.valueOf(100)).
+				multiply(BigDecimal.valueOf(100 - discount)));
+		return null;
 	}
 
 	@Override
