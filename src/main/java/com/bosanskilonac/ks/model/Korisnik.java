@@ -89,6 +89,10 @@ public class Korisnik {
 	public void setMilje(Integer milje) {
 		this.milje = milje;
 	}
+	
+	public void addMilje(Integer milje) {
+		this.milje += milje;
+	}
 
 	public List<KreditnaKartica> getKartice() {
 		return kartice;
