@@ -41,10 +41,10 @@ public class KreditnaKarticaController {
 		return new ResponseEntity<>(ccService.add(id, kreditnaKarticaCreateDto), HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Prikaz svih kreditnih kartica za trenutnog korisnika")
+	@ApiOperation(value = "Prikaz kreditnih kartica za trenutnog korisnika po strani")
 	@GetMapping
 	@CheckSecurity(roles = {Role.ROLE_USER})
-	public ResponseEntity<Page<KreditnaKarticaDto>> getAllCC(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
+	public ResponseEntity<Page<KreditnaKarticaDto>> getCC(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
 			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
 		return new ResponseEntity<>(ccService.findAll(id, brojStranice), HttpStatus.OK);
 	}
