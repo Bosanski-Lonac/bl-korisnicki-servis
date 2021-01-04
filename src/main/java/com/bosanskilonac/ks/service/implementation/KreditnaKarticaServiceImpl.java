@@ -14,7 +14,8 @@ import com.bosanskilonac.ks.repository.KorisnikRepository;
 import com.bosanskilonac.ks.repository.KreditnaKarticaRepository;
 import com.bosanskilonac.ks.service.KreditnaKarticaService;
 
-import dto.KartaCUDto;
+import dto.KartaCreateDto;
+import dto.KartaKSDto;
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
 import enums.Rank;
@@ -51,14 +52,16 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 	}
 
 	@Override
-	public KartaCUDto reserve(KartaCUDto kartaCreateDto) throws NotFoundException {
+	public KartaCreateDto reserve(KartaKSDto kartaKSDto) throws NotFoundException {
 		KreditnaKartica kreditnaKartica = ccRepository
-				.findById(kartaCreateDto.getKreditnaKarticaId())
+				.findById(kartaKSDto.getKreditnaKarticaId())
 				.orElseThrow(() -> new NotFoundException("Tražena kreditna kartica ne postoji."));
+		KartaCreateDto kartaCreateDto = new KartaCreateDto();
+		kartaCreateDto.setKorisnikId(kreditnaKartica.getKorisnik().getId());
 		Integer discount = Rank.getRankForMilje(kreditnaKartica.getKorisnik().getMilje()).getPopust();
 		kartaCreateDto.setCena(kartaCreateDto.getCena().divide(BigDecimal.valueOf(100)).
 				multiply(BigDecimal.valueOf(100 - discount)));
-		kreditnaKartica.getKorisnik().addMilje(kartaCreateDto.getMilje());
+		kreditnaKartica.getKorisnik().addMilje(kartaKSDto.getMilje());
 		return kartaCreateDto;
 	}
 

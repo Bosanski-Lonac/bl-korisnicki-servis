@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosanskilonac.ks.service.KreditnaKarticaService;
 
-import dto.KartaCUDto;
+import dto.KartaCreateDto;
+import dto.KartaKSDto;
 import dto.KreditnaKarticaCUDto;
 import dto.KreditnaKarticaDto;
 import enums.Role;
@@ -52,9 +53,9 @@ public class KreditnaKarticaController {
 	@ApiOperation(value = "Azuriraj milje korisnika")
 	@PostMapping("/reserve")
 	@CheckSecurity(roles = {Role.ROLE_SERVICE}, checkOwnership = false)
-	public ResponseEntity<KartaCUDto> reserve(@RequestHeader("Authorization") String authorization,
-			@RequestBody @Valid KartaCUDto kartaCreateDto) {
-        return new ResponseEntity<>(ccService.reserve(kartaCreateDto), HttpStatus.OK);
+	public ResponseEntity<KartaCreateDto> reserve(@RequestHeader("Authorization") String authorization,
+			@RequestBody @Valid KartaKSDto kartaKSDto) {
+        return new ResponseEntity<>(ccService.reserve(kartaKSDto), HttpStatus.OK);
     }
 	
 	@ApiOperation(value = "Brisanje kreditne kartice")

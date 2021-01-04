@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
+import dto.PovracajNovcaDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import exceptions.CustomException;
@@ -23,4 +24,6 @@ public interface KorisnikService {
 	void deleteById(Long id) throws EmptyResultDataAccessException;
 	
 	TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException;
+	
+	void refund(PovracajNovcaDto povracajNovcaDto);
 }

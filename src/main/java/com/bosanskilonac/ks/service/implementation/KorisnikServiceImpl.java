@@ -1,5 +1,8 @@
 package com.bosanskilonac.ks.service.implementation;
 
+import java.util.Map.Entry;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +15,8 @@ import com.bosanskilonac.ks.service.KorisnikService;
 
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
+import dto.PovracajNovcaDto;
+import dto.RezervacijeDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import exceptions.CustomException;
@@ -72,5 +77,19 @@ public class KorisnikServiceImpl implements KorisnikService {
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
+	}
+
+	@Override
+	public void refund(PovracajNovcaDto povracajNovcaDto) {
+		for(Entry<Long, RezervacijeDto> rezervacije : povracajNovcaDto.getListaKorisnikCena().entrySet()) {
+			Optional<Korisnik> korisnik = korisnikRepository.findById(rezervacije.getKey());
+			if(korisnik.isPresent()) {
+				korisnik.get().addMilje(-(rezervacije.getValue().getBrojRezervacija()
+						* povracajNovcaDto.getLetDto().getMilje()));
+				korisnikRepository.save(korisnik.get());
+				EmailSender.getInstance().sendEmail(korisnik.get().getEmail(), "Obaveštenje o Vašem letu" + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
+						"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD.");
+			}
+		}
 	}
 }
