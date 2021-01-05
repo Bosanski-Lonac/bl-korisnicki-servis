@@ -16,7 +16,7 @@ import com.bosanskilonac.ks.service.KorisnikService;
 import dto.KorisnikCUDto;
 import dto.KorisnikDto;
 import dto.PovracajNovcaDto;
-import dto.RezervacijeDto;
+import dto.RezervacijeKorisnikaDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import exceptions.CustomException;
@@ -81,7 +81,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	public void refund(PovracajNovcaDto povracajNovcaDto) {
-		for(Entry<Long, RezervacijeDto> rezervacije : povracajNovcaDto.getListaKorisnikCena().entrySet()) {
+		for(Entry<Long, RezervacijeKorisnikaDto> rezervacije : povracajNovcaDto.getListaKorisnikCena().entrySet()) {
 			Optional<Korisnik> korisnik = korisnikRepository.findById(rezervacije.getKey());
 			if(korisnik.isPresent()) {
 				korisnik.get().addMilje(-(rezervacije.getValue().getBrojRezervacija()

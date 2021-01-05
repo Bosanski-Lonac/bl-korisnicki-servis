@@ -59,7 +59,7 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 		KartaCreateDto kartaCreateDto = new KartaCreateDto();
 		kartaCreateDto.setKorisnikId(kreditnaKartica.getKorisnik().getId());
 		Integer discount = Rank.getRankForMilje(kreditnaKartica.getKorisnik().getMilje()).getPopust();
-		kartaCreateDto.setCena(kartaCreateDto.getCena().divide(BigDecimal.valueOf(100)).
+		kartaCreateDto.setCena(kartaKSDto.getCena().divide(BigDecimal.valueOf(100)).
 				multiply(BigDecimal.valueOf(100 - discount)));
 		kreditnaKartica.getKorisnik().addMilje(kartaKSDto.getMilje());
 		return kartaCreateDto;
