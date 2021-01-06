@@ -62,6 +62,7 @@ public class KreditnaKarticaServiceImpl implements KreditnaKarticaService {
 		kartaCreateDto.setCena(kartaKSDto.getCena().divide(BigDecimal.valueOf(100)).
 				multiply(BigDecimal.valueOf(100 - discount)));
 		kreditnaKartica.getKorisnik().addMilje(kartaKSDto.getMilje());
+		korisnikRepository.save(kreditnaKartica.getKorisnik());
 		return kartaCreateDto;
 	}
 

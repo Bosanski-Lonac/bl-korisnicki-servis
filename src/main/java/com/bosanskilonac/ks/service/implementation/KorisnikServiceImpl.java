@@ -90,7 +90,6 @@ public class KorisnikServiceImpl implements KorisnikService {
 	
 	@Override
 	public TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException {
-		System.out.println("test");
 		Korisnik korisnik = korisnikRepository
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
