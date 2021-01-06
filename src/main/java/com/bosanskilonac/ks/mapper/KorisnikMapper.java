@@ -8,7 +8,6 @@ import com.bosanskilonac.ks.model.Korisnik;
 import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
 import dto.KorisnikUpdateDto;
-import enums.Rank;
 import enums.Role;
 
 @Component
@@ -21,8 +20,7 @@ public class KorisnikMapper {
 		korisnikDto.setIme(korisnik.getIme());
 		korisnikDto.setPrezime(korisnik.getPrezime());
 		korisnikDto.setBrojPasosa(korisnik.getBrojPasosa());
-		Rank rank = Rank.getRankForMilje(korisnik.getMilje());
-		korisnikDto.setRank(rank);
+		korisnikDto.setMilje(korisnik.getMilje());
 		return korisnikDto;
 	}
 	

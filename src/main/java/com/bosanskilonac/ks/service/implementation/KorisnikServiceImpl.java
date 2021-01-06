@@ -43,7 +43,13 @@ public class KorisnikServiceImpl implements KorisnikService {
 	public TokenResponseDto register(KorisnikCreateDto korisnikCreateDto) throws DataIntegrityViolationException {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
-		//EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
+		final String email = korisnik.getEmail();
+		Thread thread = new Thread() {
+			public void run() {
+				EmailSender.getInstance().sendEmail(email, "Potvrda o registraciji", "Uspešno ste se registrovali!");
+			}
+		};
+		thread.start();
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 	
@@ -84,6 +90,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 	
 	@Override
 	public TokenResponseDto login(TokenRequestDto tokenRequestDto) throws NotFoundException {
+		System.out.println("test");
 		Korisnik korisnik = korisnikRepository
 				.findKorisnikByEmailAndSifra(tokenRequestDto.getUsername(), tokenRequestDto.getPassword())
 				.orElseThrow(() -> new NotFoundException("Prosleđene informacije za prijavu nisu tačne. Pokušajte ponovo."));
