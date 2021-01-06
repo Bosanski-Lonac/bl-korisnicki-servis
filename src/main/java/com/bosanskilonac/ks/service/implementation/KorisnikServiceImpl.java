@@ -107,7 +107,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 				final String email = korisnik.get().getEmail();
 				Thread thread = new Thread() {
 					public void run() {
-						EmailSender.getInstance().sendEmail(email, "Obaveštenje o Vašem letu" + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
+						EmailSender.getInstance().sendEmail(email, "Obaveštenje o Vašem letu " + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
 								"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD.");
 					}
 				};
