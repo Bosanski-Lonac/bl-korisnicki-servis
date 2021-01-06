@@ -43,7 +43,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 	public TokenResponseDto register(KorisnikCreateDto korisnikCreateDto) throws DataIntegrityViolationException {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
-		EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
+		//EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 	
@@ -67,7 +67,13 @@ public class KorisnikServiceImpl implements KorisnikService {
 		}
 		korisnik = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		korisnik = korisnikRepository.save(korisnik);
-		EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o izmeni korisničkih informacija", "Uspešno ste promenili svoje korisničke informacije.");
+		final String email = korisnik.getEmail();
+		Thread thread = new Thread() {
+			public void run() {
+				EmailSender.getInstance().sendEmail(email, "Potvrda o izmeni korisničkih informacija", "Uspešno ste promenili svoje korisničke informacije.");
+			}
+		};
+		thread.start();
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
@@ -92,8 +98,14 @@ public class KorisnikServiceImpl implements KorisnikService {
 				korisnik.get().addMilje(-(rezervacije.getValue().getBrojRezervacija()
 						* povracajNovcaDto.getLetDto().getMilje()));
 				korisnikRepository.save(korisnik.get());
-				EmailSender.getInstance().sendEmail(korisnik.get().getEmail(), "Obaveštenje o Vašem letu" + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
-						"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD.");
+				final String email = korisnik.get().getEmail();
+				Thread thread = new Thread() {
+					public void run() {
+						EmailSender.getInstance().sendEmail(email, "Obaveštenje o Vašem letu" + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
+								"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD.");
+					}
+				};
+				thread.start();
 			}
 		}
 	}
