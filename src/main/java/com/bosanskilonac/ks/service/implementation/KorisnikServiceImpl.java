@@ -13,13 +13,15 @@ import com.bosanskilonac.ks.model.Korisnik;
 import com.bosanskilonac.ks.repository.KorisnikRepository;
 import com.bosanskilonac.ks.service.KorisnikService;
 
-import dto.KorisnikCUDto;
+import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
+import dto.KorisnikUpdateDto;
 import dto.PovracajNovcaDto;
 import dto.RezervacijeKorisnikaDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import exceptions.CustomException;
+import exceptions.ForbiddenException;
 import exceptions.NotFoundException;
 import security.TokenService;
 import utility.EmailSender;
@@ -38,10 +40,10 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	@Transactional(rollbackOn = DataIntegrityViolationException.class)
-	public TokenResponseDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException {
+	public TokenResponseDto register(KorisnikCreateDto korisnikCreateDto) throws DataIntegrityViolationException {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
-		//EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
+		EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o registraciji", "Uspešno ste se registrovali!");
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 	
@@ -56,13 +58,16 @@ public class KorisnikServiceImpl implements KorisnikService {
 
 	@Override
 	@Transactional(rollbackOn = DataIntegrityViolationException.class)
-	public KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException {
+	public KorisnikDto update(Long id, KorisnikUpdateDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException {
 		Korisnik korisnik = korisnikRepository
 				.findById(id)
 				.orElseThrow(() -> new NotFoundException(String.format("Korisnik sa id-jem %s ne postoji.", id)));
+		if(!korisnik.getSifra().equals(korisnikUpdateDto.getSifra())) {
+			throw new ForbiddenException("Niste dobro ukucali trenutnu šifru.");
+		}
 		korisnik = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		korisnik = korisnikRepository.save(korisnik);
-		//EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o promeni email adrese", "Uspešno ste promenili svoju email adresu.");
+		EmailSender.getInstance().sendEmail(korisnik.getEmail(), "Potvrda o izmeni korisničkih informacija", "Uspešno ste promenili svoje korisničke informacije.");
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 

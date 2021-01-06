@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,6 +20,7 @@ public class Korisnik {
 	@Column(unique=true)
 	private String email;
 	@NotBlank
+	@Size(min = 9, max = 9)
 	@Column(unique=true, name="broj_pasosa")
 	private String brojPasosa;
 	@NotBlank
@@ -26,6 +28,7 @@ public class Korisnik {
 	@NotBlank
 	private String prezime;
 	@NotBlank
+	@Size(min = 5)
 	private String sifra;
 	@PositiveOrZero
 	private Integer milje;
@@ -52,7 +55,7 @@ public class Korisnik {
 		return sifra;
 	}
 
-	public void setSifra(String sifra) {
+	public void setSifra(@NotBlank @Size(min = 5) String sifra) {
 		this.sifra = sifra;
 	}
 

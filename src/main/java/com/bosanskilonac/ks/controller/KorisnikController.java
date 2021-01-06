@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosanskilonac.ks.service.KorisnikService;
 
-import dto.KorisnikCUDto;
+import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
+import dto.KorisnikUpdateDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import enums.Role;
@@ -35,7 +36,7 @@ public class KorisnikController {
 	
 	@ApiOperation(value = "Registracija korisnika")
 	@PostMapping
-	public ResponseEntity<TokenResponseDto> register(@RequestBody @Valid KorisnikCUDto korisnikCreateDto) {
+	public ResponseEntity<TokenResponseDto> register(@RequestBody @Valid KorisnikCreateDto korisnikCreateDto) {
 		return new ResponseEntity<>(korisnikService.register(korisnikCreateDto), HttpStatus.CREATED);
 	}
 	
@@ -55,7 +56,8 @@ public class KorisnikController {
 	@ApiOperation(value = "Izmena profila korisnika")
 	@PutMapping("/{id}")
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN})
-    public ResponseEntity<KorisnikDto> update(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, @RequestBody @Valid KorisnikCUDto korisnikUpdateDto) {
+    public ResponseEntity<KorisnikDto> update(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id,
+    		@RequestBody @Valid KorisnikUpdateDto korisnikUpdateDto) {
         return new ResponseEntity<>(korisnikService.update(id, korisnikUpdateDto), HttpStatus.OK);
     }
 	

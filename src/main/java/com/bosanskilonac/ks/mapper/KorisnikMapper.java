@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 import com.bosanskilonac.ks.model.Admin;
 import com.bosanskilonac.ks.model.Korisnik;
 
-import dto.KorisnikCUDto;
+import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
+import dto.KorisnikUpdateDto;
 import enums.Rank;
 import enums.Role;
 
@@ -33,7 +34,7 @@ public class KorisnikMapper {
 		return korisnikDto;
 	}
 	
-	public Korisnik korisnikCreateDtoToKorisnik(KorisnikCUDto korisnikCreateDto) {
+	public Korisnik korisnikCreateDtoToKorisnik(KorisnikCreateDto korisnikCreateDto) {
 		Korisnik korisnik=new Korisnik();
 		korisnik.setEmail(korisnikCreateDto.getEmail());
 		korisnik.setSifra(korisnikCreateDto.getSifra());
@@ -44,9 +45,11 @@ public class KorisnikMapper {
 		return korisnik;
 	}
 	
-	public Korisnik korisnikUpdateDtoToKorisnik(KorisnikCUDto korisnikUpdateDto, Korisnik korisnik) {
+	public Korisnik korisnikUpdateDtoToKorisnik(KorisnikUpdateDto korisnikUpdateDto, Korisnik korisnik) {
 		korisnik.setEmail(korisnikUpdateDto.getEmail());
-		korisnik.setSifra(korisnikUpdateDto.getSifra());
+		if(!korisnikUpdateDto.getNovaSifra().isBlank()) {
+			korisnik.setSifra(korisnikUpdateDto.getNovaSifra());
+		}
 		korisnik.setIme(korisnikUpdateDto.getIme());
 		korisnik.setPrezime(korisnikUpdateDto.getPrezime());
 		korisnik.setBrojPasosa(korisnikUpdateDto.getBrojPasosa());

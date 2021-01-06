@@ -1,25 +1,23 @@
 package com.bosanskilonac.ks.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import dto.KorisnikCUDto;
+import dto.KorisnikCreateDto;
 import dto.KorisnikDto;
+import dto.KorisnikUpdateDto;
 import dto.PovracajNovcaDto;
 import dto.TokenRequestDto;
 import dto.TokenResponseDto;
 import exceptions.CustomException;
 import exceptions.NotFoundException;
 
-@Transactional
 public interface KorisnikService {
-	TokenResponseDto register(KorisnikCUDto korisnikCreateDto) throws DataIntegrityViolationException;
+	TokenResponseDto register(KorisnikCreateDto korisnikCreateDto) throws DataIntegrityViolationException;
 	
 	KorisnikDto get(Long id) throws NotFoundException;
 	
-	KorisnikDto update(Long id, KorisnikCUDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException;
+	KorisnikDto update(Long id, KorisnikUpdateDto korisnikUpdateDto) throws DataIntegrityViolationException, CustomException;
 	
 	void deleteById(Long id) throws EmptyResultDataAccessException;
 	
