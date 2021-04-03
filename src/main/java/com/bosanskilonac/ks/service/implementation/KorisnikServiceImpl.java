@@ -24,7 +24,7 @@ import exceptions.CustomException;
 import exceptions.ForbiddenException;
 import exceptions.NotFoundException;
 import security.TokenService;
-import utility.EmailSender;
+import security.EmailSender;
 
 @Service
 public class KorisnikServiceImpl implements KorisnikService {

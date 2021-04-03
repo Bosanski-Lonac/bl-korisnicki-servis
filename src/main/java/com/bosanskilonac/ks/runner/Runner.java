@@ -10,7 +10,7 @@ import com.bosanskilonac.ks.repository.AdminRepository;
 
 import enums.Role;
 import security.TokenService;
-import utility.EmailSender;
+import security.EmailSender;
 
 @Profile({"default"})
 @Component
