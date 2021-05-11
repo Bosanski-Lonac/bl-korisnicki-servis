@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.ks.mapper.KorisnikMapper;
@@ -31,11 +32,13 @@ public class KorisnikServiceImpl implements KorisnikService {
 	private TokenService tokenService;
 	private KorisnikRepository korisnikRepository;
 	private KorisnikMapper korisnikMapper;
+	private ThreadPoolTaskExecutor taskExecutor;
 	
-	public KorisnikServiceImpl(TokenService tokenService, KorisnikRepository korisnikRepository, KorisnikMapper korisnikMapper) {
+	public KorisnikServiceImpl(TokenService tokenService, KorisnikRepository korisnikRepository, KorisnikMapper korisnikMapper, ThreadPoolTaskExecutor taskExecutor) {
 		this.tokenService = tokenService;
 		this.korisnikRepository = korisnikRepository;
 		this.korisnikMapper = korisnikMapper;
+		this.taskExecutor = taskExecutor;
 	}
 
 	@Override
@@ -44,12 +47,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 		Korisnik korisnik = korisnikMapper.korisnikCreateDtoToKorisnik(korisnikCreateDto);
 		korisnik = korisnikRepository.save(korisnik);
 		final String email = korisnik.getEmail();
-		Thread thread = new Thread() {
-			public void run() {
-				EmailSender.getInstance().sendEmail(email, "Potvrda o registraciji", "Uspešno ste se registrovali!");
-			}
-		};
-		thread.start();
+		taskExecutor.execute(() -> EmailSender.getInstance().sendEmail(email, "Potvrda o registraciji", "Uspešno ste se registrovali!"));
 		return tokenService.createToken(korisnikMapper.korisnikToKorisnikDto(korisnik));
 	}
 	
@@ -74,12 +72,8 @@ public class KorisnikServiceImpl implements KorisnikService {
 		korisnik = korisnikMapper.korisnikUpdateDtoToKorisnik(korisnikUpdateDto, korisnik);
 		korisnik = korisnikRepository.save(korisnik);
 		final String email = korisnik.getEmail();
-		Thread thread = new Thread() {
-			public void run() {
-				EmailSender.getInstance().sendEmail(email, "Potvrda o izmeni korisničkih informacija", "Uspešno ste promenili svoje korisničke informacije.");
-			}
-		};
-		thread.start();
+
+		taskExecutor.execute(() -> EmailSender.getInstance().sendEmail(email, "Potvrda o izmeni korisničkih informacija", "Uspešno ste promenili svoje korisničke informacije."));
 		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 
@@ -105,13 +99,8 @@ public class KorisnikServiceImpl implements KorisnikService {
 						* povracajNovcaDto.getLetDto().getMilje()));
 				korisnikRepository.save(korisnik.get());
 				final String email = korisnik.get().getEmail();
-				Thread thread = new Thread() {
-					public void run() {
-						EmailSender.getInstance().sendEmail(email, "Obaveštenje o Vašem letu " + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
-								"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD.");
-					}
-				};
-				thread.start();
+				taskExecutor.execute(() -> EmailSender.getInstance().sendEmail(email, "Obaveštenje o Vašem letu " + povracajNovcaDto.getLetDto().getPocetnaDestinacija() + "-" + povracajNovcaDto.getLetDto().getKrajnjaDestinacija(),
+				"Vaš let je otkazan, i za vaših " + rezervacije.getValue().getBrojRezervacija().toString() + " rezervacija će se izvršiti povraćaj u iznosu od " + rezervacije.getValue().getCena().toString() + " RSD."));
 			}
 		}
 	}
